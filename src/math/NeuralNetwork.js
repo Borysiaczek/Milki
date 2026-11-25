@@ -91,9 +91,11 @@ export class NeuralNetwork {
   }
 
   mutate(mutationRate = 0.08, mutationStrength = 0.3) {
+    let changed = 0;
     const mutateArray = (arr) => {
       for (let i = 0; i < arr.length; i++) {
         if (Math.random() < mutationRate) {
+          changed++;
           if (Math.random() < 0.08) {
             arr[i] = -arr[i];
           } else {
@@ -109,6 +111,7 @@ export class NeuralNetwork {
     mutateArray(this.biasH);
     mutateArray(this.weightsHO);
     mutateArray(this.biasO);
+    this.lastMutationCount = changed;
     return this;
   }
 

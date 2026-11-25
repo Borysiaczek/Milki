@@ -1,155 +1,139 @@
 const LESSONS = [
   {
-    id: 'mlp',
-    title: 'Sieć Neuronowa (MLP)',
-    badge: 'Podstawy AI',
+    id: 'course1',
+    title: 'Kurs 1: Sztuczny Neuron',
+    badge: 'Start',
     html: `
-      <div class="space-y-4 text-xs leading-relaxed text-slate-300">
-        <p>
-          Każdy organizm w symulacji jest sterowany przez własną, niezależną <strong class="text-cyan-300">sztuczną sieć neuronową</strong> typu <em>Multi-Layer Perceptron (MLP)</em> — czyli wielowarstwowy perceptron jednokierunkowy.
-        </p>
-        <div class="grid grid-cols-3 gap-2.5">
-          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-cyan-400 mb-1">1. Warstwa Wejściowa</div>
-            <div class="text-lg font-bold font-mono text-slate-100">14 neuronów</div>
-            <p class="text-[11px] text-slate-400 mt-1">Odbiera surowe dane ze świata: 5 promieni wzroku (odległość i typ obiektu) oraz stan ciała.</p>
-          </div>
-          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-purple-400 mb-1">2. Warstwa Ukryta</div>
-            <div class="text-lg font-bold font-mono text-slate-100">10 neuronów</div>
-            <p class="text-[11px] text-slate-400 mt-1">Łączy sygnały ze zmysłów w abstrakcyjne wzorce, np. „pokarm po lewej + brak drapieżnika”.</p>
-          </div>
-          <div class="p-3 rounded-lg bg-slate-900/80 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-emerald-400 mb-1">3. Warstwa Wyjściowa</div>
-            <div class="text-lg font-bold font-mono text-slate-100">3 neurony</div>
-            <p class="text-[11px] text-slate-400 mt-1">Zamienia wynik obliczeń na fizyczny ruch: napęd, skręt oraz sprint lub ugryzienie.</p>
-          </div>
-        </div>
-        <div class="p-3.5 rounded-lg bg-slate-950/80 border border-cyan-500/25">
-          <div class="text-[10px] font-mono uppercase tracking-wider text-cyan-300 mb-1.5">Jak neuron oblicza wynik? (Propagacja w przód)</div>
-          <div class="font-mono text-sm text-slate-100 bg-slate-900/90 px-3 py-2 rounded border border-slate-800 mb-2">
-            wyjście = tanh( w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + bias )
-          </div>
-          <p class="text-[11px] text-slate-400">
-            Każde połączenie ma <strong class="text-slate-200">wagę synaptyczną (w)</strong> przechowywaną w szybkiej tablicy <code class="text-cyan-300">Float32Array</code>.
-            Waga dodatnia (linia <span class="text-cyan-300">cyjanowa</span>) wzmacnia sygnał, a ujemna (linia <span class="text-rose-400">czerwona</span>) go hamuje.
-            Funkcja aktywacji <strong class="text-slate-200">tanh(x)</strong> ściska wynik do przedziału <code class="text-cyan-300">[-1.0, +1.0]</code>, co naturalnie odpowiada np. skrętowi w lewo (-1) lub w prawo (+1).
+      <div class="space-y-3.5 text-xs leading-relaxed text-slate-300">
+        <div class="p-3 rounded-lg bg-cyan-950/35 border border-cyan-500/30">
+          <div class="text-[10px] font-mono uppercase text-cyan-300 font-semibold mb-1">Wyobraź sobie małą komisję decyzyjną</div>
+          <p class="text-[11px] text-slate-300">
+            Sztuczny neuron nie jest magiczny — działa jak <strong class="text-slate-100">głosowanie z wagami</strong>.
+            Dostaje kilka wskazówek (np. „widzę jedzenie po lewej”, „mam mało energii”), każdą mnoży przez to, jak bardzo jej ufa (<strong class="text-cyan-300">waga synaptyczna</strong>), dodaje własny próg ostrożności (<strong class="text-purple-300">bias</strong>) i zamienia wynik na jedną płynną decyzję od <code class="text-rose-300">-1</code> do <code class="text-cyan-300">+1</code>.
           </p>
         </div>
-        <p class="text-[11px] text-slate-400">
-          <strong class="text-cyan-300">Wskazówka:</strong> Kliknij dowolnego stworka na planszy, a następnie najedź kursorem na pojedyncze kółka (neurony) w prawym panelu Inspektora, aby zobaczyć ich aktualną wartość i znaczenie w czasie rzeczywistym!
-        </p>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
+            <div class="text-[10px] font-mono text-cyan-300 font-semibold">Waga dodatnia (+)</div>
+            <p class="text-[10.5px] text-slate-400 mt-1">„Im mocniejszy ten sygnał, tym bardziej chcę to zrobić!” (Cyjanowe linie i prążki DNA).</p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
+            <div class="text-[10px] font-mono text-rose-300 font-semibold">Waga ujemna (-)</div>
+            <p class="text-[10.5px] text-slate-400 mt-1">„Ten sygnał mnie powstrzymuje lub każe zrobić odwrotnie!” (Czerwone linie i prążki DNA).</p>
+          </div>
+          <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800">
+            <div class="text-[10px] font-mono text-emerald-300 font-semibold">Funkcja tanh(x)</div>
+            <p class="text-[10.5px] text-slate-400 mt-1">Płynny suwak, który każdą liczbę ściska miękko do zakresu <code class="text-slate-200">[-1, +1]</code>.</p>
+          </div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800">
+          <div class="text-[10px] font-mono uppercase text-slate-400 mb-1">Wzór jednego neuronu</div>
+          <div class="font-mono text-xs text-cyan-200 bg-slate-900/90 px-3 py-1.5 rounded border border-slate-800">
+            wynik = tanh( w₁·wejście₁ + w₂·wejście₂ + ... + bias )
+          </div>
+          <p class="text-[10.5px] text-slate-400 mt-2">
+            Wszystkie 183 wagi i biasy miłka możesz obejrzeć w prawym panelu Inspektora jako kolorowy <strong class="text-cyan-300">Kod DNA Wag</strong>. Po użyciu „Klonuj i mutuj” zobaczysz dokładnie, które prążki DNA zmieniły się u potomka!
+          </p>
+        </div>
       </div>
     `
   },
   {
-    id: 'io',
-    title: 'Zmysły i Decyzje',
-    badge: '14 → 3',
+    id: 'course2',
+    title: 'Kurs 2: Mózg 14→10→3',
+    badge: 'Warstwy',
     html: `
       <div class="space-y-3.5 text-xs leading-relaxed text-slate-300">
         <p>
-          Sieć neuronowa nie „widzi” ekranu jak człowiek. Zamiast obrazu z kamery dostaje wektor <strong class="text-cyan-300">14 znormalizowanych liczb</strong> obliczanych w każdej klatce symulacji:
+          Jeden neuron potrafi tylko proste „jeśli A, to B”. Dopiero połączenie neuronów w <strong class="text-cyan-300">3 warstwy (MLP)</strong> pozwala miłkowi łączyć fakty — np. <em>„widzę pokarm z przodu, ALE z prawej nadpływa drapieżnik, więc skręcam w lewo i włączam sprint!”</em>.
         </p>
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800 space-y-1">
+            <div class="text-[10px] font-mono uppercase text-cyan-300 font-semibold">Wejścia (14 zmysłów)</div>
+            <div class="text-[10.5px] text-slate-300 space-y-0.5">
+              <div><code class="text-cyan-300 font-bold">O1–O5</code> Odległość na 5 promieniach wzroku (1 = dotyk).</div>
+              <div><code class="text-cyan-300 font-bold">T1–T5</code> Co widać: <span class="text-emerald-300">+1</span> cel pokarmowy, <span class="text-rose-400">-1</span> drapieżnik/toksyna, <span class="text-slate-400">0</span> skała/pusto.</div>
+              <div><code class="text-cyan-300 font-bold">ENE / PRĘ / OBR</code> Stan ciała: energia, prędkość i obrót.</div>
+              <div><code class="text-cyan-300 font-bold">ZEG</code> Wewnętrzny metronom <code class="text-slate-200">sin(wiek·f)</code> do rytmicznego pływania.</div>
+            </div>
+          </div>
           <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800 space-y-1.5">
-            <div class="text-[10px] font-mono uppercase text-cyan-300 font-semibold">Wejścia zmysłowe (14)</div>
-            <div class="text-[11px] space-y-1 text-slate-300">
-              <div><code class="text-cyan-300 font-bold">O1–O5</code> — Odległość na 5 promieniach wzroku (<code class="text-slate-200">1.0</code> = bardzo blisko, <code class="text-slate-200">0.0</code> = pusto).</div>
-              <div><code class="text-cyan-300 font-bold">T1–T5</code> — Typ obiektu na promieniu: <span class="text-emerald-300">+1.0</span> (pokarm/ofiara), <span class="text-rose-400">-1.0</span> (drapieżnik/toksyna), <span class="text-slate-400">0.0</span> (ściana/brak).</div>
-              <div><code class="text-cyan-300 font-bold">ENE</code> — Poziom energii ciała (<code class="text-slate-200">0.0</code> do <code class="text-slate-200">1.0</code>).</div>
-              <div><code class="text-cyan-300 font-bold">PRĘ</code> — Aktualna prędkość liniowa organizmu.</div>
-              <div><code class="text-cyan-300 font-bold">OBR</code> — Prędkość kątowa (czy organizm właśnie skręca).</div>
-              <div><code class="text-cyan-300 font-bold">ZEG</code> — Zegar biologiczny <code class="text-slate-200">sin(wiek · f)</code>, pozwalający wyewoluować rytmiczne pływanie i zygzakowanie.</div>
+            <div class="text-[10px] font-mono uppercase text-purple-300 font-semibold">Warstwa Ukryta (10) → Wyjścia (3)</div>
+            <p class="text-[10.5px] text-slate-400">
+              10 neuronów ukrytych to <strong class="text-slate-200">wykrywacze sytuacji</strong>. Każdy łączy wszystkie 14 wejść i przekazuje swoją opinię do 3 mięśni:
+            </p>
+            <div class="text-[10.5px] text-slate-300 space-y-0.5">
+              <div><code class="text-emerald-300 font-bold">NAP</code> — siła napędu wici (przód / tył).</div>
+              <div><code class="text-emerald-300 font-bold">SKR</code> — kierunek skrętu (lewo / prawo).</div>
+              <div><code class="text-emerald-300 font-bold">SPR</code> — powyżej <code class="text-cyan-300">+0.5</code> włącza sprint lub ugryzienie!</div>
             </div>
           </div>
-          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800 space-y-2">
-            <div class="text-[10px] font-mono uppercase text-emerald-300 font-semibold">Wyjścia ruchowe (3)</div>
-            <div class="text-[11px] space-y-2 text-slate-300">
-              <div>
-                <code class="text-emerald-300 font-bold">NAP (Napęd)</code><br/>
-                Zakres <code class="text-slate-200">-1..+1</code>. Steruje siłą wici do przodu lub wstecz. Koszt energii rośnie z kwadratem siły (<code class="text-slate-200">NAP²</code>).
-              </div>
-              <div>
-                <code class="text-emerald-300 font-bold">SKR (Skręt)</code><br/>
-                Zakres <code class="text-slate-200">-1..+1</code>. Moment obrotowy sterujący kierunkiem płynięcia.
-              </div>
-              <div>
-                <code class="text-emerald-300 font-bold">SPR (Sprint / Ugryzienie)</code><br/>
-                Gdy przekroczy <code class="text-cyan-300">+0.5</code>, włącza zryw prędkości (koszt <span class="text-amber-300">2.5× energii</span>) oraz wzmacnia atak drapieżników przy kontakcie z ofiarą.
-              </div>
-            </div>
-          </div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 text-[11px] text-emerald-200">
+          <strong>Wskazówka:</strong> Kliknij dowolnego miłka na mapie i najedź myszką na neurony w prawym panelu Inspektora — podświetlą się dokładnie jego połączenia oraz opis roli każdego neuronu.
         </div>
       </div>
     `
   },
   {
-    id: 'evo',
-    title: 'Neuroewolucja',
+    id: 'course3',
+    title: 'Kurs 3: Jak uczy się Ewolucja?',
     badge: 'Genetyka',
     html: `
       <div class="space-y-3.5 text-xs leading-relaxed text-slate-300">
         <p>
-          W klasycznym uczeniu głębokim (np. ChatGPT) sieci uczy się metodą <strong class="text-slate-100">propagacji wstecznej (backpropagation)</strong> na gotowym zbiorze danych.
-          W tym ekosystemie nie ma nauczyciela ani gotowych odpowiedzi — działa tu <strong class="text-purple-300">neuroewolucja</strong> inspirowana teorią Darwina!
+          Nikt nie programuje miłkom zasad „jedz zielone, unikaj fioletowego”. Pierwsze pokolenie ma <strong class="text-slate-100">całkowicie losowe mózgi</strong>! Inteligencja rodzi się sama przez <strong class="text-purple-300">neuroewolucję</strong> — połączenie sieci neuronowych z algorytmem genetycznym:
         </p>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-purple-300 font-semibold mb-1">1. Selekcja Naturalna</div>
-            <p class="text-[11px] text-slate-400">
-              Początkowe mózgi mają losowe wagi — większość kręci się w kółko i ginie z głodu. Te, które przypadkiem skręcą w stronę zielonych punktów (<code class="text-emerald-300">+1</code>) i unikną fioletowych toksyn (<code class="text-rose-400">-1</code>), gromadzą ponad <strong class="text-slate-200">85% energii</strong> i przekazują swoje wagi potomstwu.
-            </p>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="p-2.5 rounded-lg bg-slate-900/75 border border-slate-800">
+            <div class="text-[10px] font-mono uppercase text-emerald-300 font-semibold">1. Przeżycie = Ocena (Fitness)</div>
+            <p class="text-[10.5px] text-slate-400 mt-1">Miłki, które lepiej zdobywają energię, przekraczają próg <strong class="text-slate-200">85% energii</strong> i wydają potomstwo. Reszta ginie i zamienia się w padlinę.</p>
           </div>
-          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-cyan-300 font-semibold mb-1">2. Krzyżowanie (Crossover)</div>
-            <p class="text-[11px] text-slate-400">
-              Jeśli w promieniu <code class="text-slate-200">100 px</code> znajduje się kompatybilny partner o podobnej diecie, dziecko dziedziczy mieszankę wag neuronowych i genów ciała obu rodziców (krzyżowanie jednorodne lub jednopunktowe). W przeciwnym razie następuje klonowanie bezpłciowe.
-            </p>
+          <div class="p-2.5 rounded-lg bg-slate-900/75 border border-slate-800">
+            <div class="text-[10px] font-mono uppercase text-cyan-300 font-semibold">2. Krzyżowanie (Crossover)</div>
+            <p class="text-[10.5px] text-slate-400 mt-1">Gdy w promieniu <code class="text-slate-200">100 px</code> jest partner, dziecko dziedziczy mieszankę wag neuronowych i genów diety obojga rodziców.</p>
           </div>
-          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-amber-300 font-semibold mb-1">3. Mutacja Gaussa</div>
-            <p class="text-[11px] text-slate-400">
-              Do wybranych wag dodawany jest losowy szum o rozkładzie normalnym (<strong class="text-slate-200">transformacja Boxa-Mullera</strong>), a czasem następuje odwrócenie znaku wagi. Mutują też cechy fizyczne: dieta, rozmiar, zasięg wzroku i kąt widzenia (FOV).
-            </p>
+          <div class="p-2.5 rounded-lg bg-slate-900/75 border border-slate-800">
+            <div class="text-[10px] font-mono uppercase text-amber-300 font-semibold">3. Mutacja Gaussa</div>
+            <p class="text-[10.5px] text-slate-400 mt-1">Drobne losowe zmiany wag (rozkład normalny Boxa-Mullera) pozwalają odkrywać nowe strategie, ale zbyt wysoka mutacja (np. 32%) niszczy wyuczone wagi.</p>
           </div>
-          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-emerald-300 font-semibold mb-1">4. Galeria Sław (Elitaryzm)</div>
-            <p class="text-[11px] text-slate-400">
-              Symulator zapamiętuje 3 najdłużej żyjące genomy w historii. Gdy populacja spadnie poniżej 15 osobników, ekosystem automatycznie zasiedla świat zmutowanymi potomkami tych weteranów — zapobiegając utracie wyewoluowanej inteligencji.
-            </p>
+          <div class="p-2.5 rounded-lg bg-slate-900/75 border border-slate-800">
+            <div class="text-[10px] font-mono uppercase text-purple-300 font-semibold">4. Galeria Sław (Elitaryzm)</div>
+            <p class="text-[10.5px] text-slate-400 mt-1">Najdłużej żyjące miłki trafiają do Galerii Sław. Możesz je w każdej chwili <strong class="text-cyan-300">wskrzesić</strong>, a przy kryzysie populacji ratują ekosystem przed wymarciem.</p>
           </div>
         </div>
       </div>
     `
   },
   {
-    id: 'sim',
-    title: 'Fizyka i Algorytmy',
-    badge: 'Silnik',
+    id: 'course4',
+    title: 'Kurs 4: Łańcuch i Świat',
+    badge: 'Ekosystem',
     html: `
-      <div class="space-y-3.5 text-xs leading-relaxed text-slate-300">
-        <div class="p-3.5 rounded-lg bg-slate-900/75 border border-slate-800">
-          <div class="text-[10px] font-mono uppercase text-cyan-300 font-semibold mb-1">Siatka Przestrzenna (Spatial Hash Grid 80×80 px)</div>
-          <p class="text-[11px] text-slate-400">
-            Sprawdzanie kolizji i 5 promieni wzroku każdego stworka z każdym innym obiektem wymagałoby <code class="text-rose-300">O(N²)</code> operacji (dla 300 organizmów i 800 punktów pokarmu to setki tysięcy testów na klatkę).
-            Zamiast tego świat <code class="text-slate-200">3000 × 2000</code> dzielimy na płaską siatkę komórek <code class="text-cyan-300">80 × 80 px</code> na tablicach <code class="text-cyan-300">Int32Array</code>.
-            Wyszukiwanie sąsiadów działa w czasie <code class="text-emerald-300">O(1)</code> na komórkę! Włącz przełącznik <strong>Pokaż siatkę przestrzenną</strong>, aby zobaczyć aktywne komórki na żywo.
-          </p>
+      <div class="space-y-3 text-xs leading-relaxed text-slate-300">
+        <div class="grid grid-cols-2 gap-2">
+          <div class="p-2 rounded-lg bg-emerald-950/30 border border-emerald-500/30">
+            <div class="text-[10px] font-mono uppercase text-emerald-300 font-semibold">Roślinożerca &amp; Padlinożerca</div>
+            <p class="text-[10.5px] text-slate-400 mt-0.5"><strong class="text-emerald-200">Szmaragdowi</strong> zjadają florę, a <strong class="text-violet-300">Fioletowi</strong> żywią się padliną i są odporni na toksyny.</p>
+          </div>
+          <div class="p-2 rounded-lg bg-amber-950/30 border border-amber-500/30">
+            <div class="text-[10px] font-mono uppercase text-amber-300 font-semibold">Wszystkożerca</div>
+            <p class="text-[10.5px] text-slate-400 mt-0.5"><strong class="text-amber-200">Złote</strong> miłki z płetwami — elastyczni oportuniści jedzący florę, padlinę i mniejsze miłki.</p>
+          </div>
+          <div class="p-2 rounded-lg bg-rose-950/30 border border-rose-500/30">
+            <div class="text-[10px] font-mono uppercase text-rose-300 font-semibold">Łowca Szkarłatny</div>
+            <p class="text-[10.5px] text-slate-400 mt-0.5"><strong class="text-rose-200">Karmazynowy</strong> drapieżnik średniego szczebla z żuwaczkami — poluje na roślinożerców, padlinożerców i wszystkożerców.</p>
+          </div>
+          <div class="p-2 rounded-lg bg-sky-950/35 border border-sky-400/35">
+            <div class="text-[10px] font-mono uppercase text-sky-300 font-semibold">Drapieżnik Alfa</div>
+            <p class="text-[10.5px] text-slate-400 mt-0.5"><strong class="text-sky-200">Elektryzująco błękitny</strong> superdrapieżnik szczytowy z podwójnymi kolcami — może polować nawet na Łowców Szkarłatnych!</p>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-amber-300 font-semibold mb-1">Termodynamika i Kompromisy</div>
-            <p class="text-[11px] text-slate-400">
-              Większy rozmiar daje większy magazyn energii i silniejsze ugryzienie, ale podstawowy metabolizm rośnie z kwadratem rozmiaru (<code class="text-slate-200">rozmiar²</code>). Dłuższe sensory pozwalają widzieć dalej, ale stale zużywają dodatkową energię — ewolucja musi znaleźć złoty środek.
-            </p>
-          </div>
-          <div class="p-3 rounded-lg bg-slate-900/75 border border-slate-800">
-            <div class="text-[10px] font-mono uppercase text-emerald-300 font-semibold mb-1">Dryfujące Biomy i Nisze</div>
-            <p class="text-[11px] text-slate-400">
-              Roślinność rośnie w 6 powoli wędrujących żyznych oazach. Zmusza to roślinożerców do migracji zamiast kręcenia się w jednym miejscu, a mięsożerców do podążania za stadami ofiar.
-            </p>
-          </div>
+        <div class="p-2.5 rounded-lg bg-purple-950/25 border border-purple-500/30 text-[10.5px] text-slate-300">
+          <strong class="text-purple-300">Edytor Łańcucha Pokarmowego:</strong> Kliknij przycisk <strong>Łańcuch</strong> na górnym pasku, aby samodzielnie ułożyć kto kogo zjada (np. odwrócić piramidę!), albo włącz <strong>Tryb Ewolucyjny</strong>, w którym relacje drapieżnik–ofiara wykształcają się same przez mutacje genów diety!
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 text-[10.5px] text-slate-400">
+          <strong class="text-cyan-300">Manipulacja terenem:</strong> W lewym panelu możesz niezależnie włączać i wyłączać <em>Strefy ciepłe/zimne</em>, <em>Skały i rafy</em>, <em>Prądy i wiry</em>, <em>Kryształy i kominy</em> oraz <em>Lasy wodorostów</em>, a także losować nowy układ mapy. Tempo czasu zmienisz strzałkami <code class="text-slate-200">← / →</code>.
         </div>
       </div>
     `
@@ -159,49 +143,57 @@ const LESSONS = [
     title: 'Laboratorium Eksperymentów',
     badge: 'Praktyka',
     html: `
-      <div class="space-y-2.5 text-xs leading-relaxed text-slate-300">
+      <div class="space-y-2 text-xs leading-relaxed text-slate-300">
         <p class="text-[11px] text-slate-400">
-          Wybierz gotowy eksperyment badawczy, aby zaobserwować różne zjawiska znane z teorii ewolucji i uczenia maszynowego. Zalecamy włączenie prędkości <strong class="text-cyan-300">5x</strong> lub <strong class="text-cyan-300">Skok</strong> po uruchomieniu scenariusza.
+          Wybierz gotowy scenariusz badawczy, a następnie przyspiesz czas strzałką <code class="text-cyan-300">→</code> do <strong>5x</strong> lub <strong>Skok</strong>, aby zobaczyć ewolucję na przestrzeni kilkunastu pokoleń!
         </p>
         <div class="grid grid-cols-1 gap-2">
-          <button data-scenario="balanced" class="text-left p-3 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-cyan-500/50 transition group">
+          <button data-scenario="balanced" class="text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-cyan-500/50 transition group">
             <div class="flex items-center justify-between">
-              <span class="font-semibold text-slate-100 group-hover:text-cyan-300">1. Zrównoważony Ekosystem (Klasyczny)</span>
+              <span class="font-semibold text-slate-100 group-hover:text-cyan-300">1. Zrównoważony Ekosystem (5 Gatunków)</span>
               <span class="text-[10px] font-mono text-emerald-300">Mutacja 8% · Flora 16/s</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Obserwuj oscylacje populacji ofiar i drapieżników (cykle Lotki-Volterry) oraz stopniowy wzrost średniego pokolenia.</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Obserwuj pełną piramidę pokarmową z Łowcami Szkarłatnymi i Drapieżnikami Alfa.</p>
           </button>
 
-          <button data-scenario="arms_race" class="text-left p-3 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-rose-500/50 transition group">
+          <button data-scenario="scavenger_realm" class="text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-violet-500/50 transition group">
             <div class="flex items-center justify-between">
-              <span class="font-semibold text-slate-100 group-hover:text-rose-300">2. Wyścig Zbrojeń Drapieżników</span>
+              <span class="font-semibold text-slate-100 group-hover:text-violet-300">2. Królestwo Padlinożerców</span>
+              <span class="text-[10px] font-mono text-violet-300">115 porcji padliny · Mało flory</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-0.5">Ograniczona roślinność i toksyny faworyzują odpornych fioletowych padlinożerców żerujących na szczątkach.</p>
+          </button>
+
+          <button data-scenario="arms_race" class="text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-rose-500/50 transition group">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold text-slate-100 group-hover:text-rose-300">3. Wyścig Zbrojeń Drapieżników</span>
               <span class="text-[10px] font-mono text-rose-300">Energia drapieżników 2.35×</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Mięsożercy zyskują ogromną przewagę. Zobacz, czy roślinożercy wyewoluują szybszy sprint i szerszy kąt widzenia (FOV), aby uciekać!</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Mięsożercy zyskują przewagę — sprawdź starcie Łowców Szkarłatnych z Drapieżnikami Alfa!</p>
           </button>
 
-          <button data-scenario="famine" class="text-left p-3 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-amber-500/50 transition group">
+          <button data-scenario="famine" class="text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-amber-500/50 transition group">
             <div class="flex items-center justify-between">
-              <span class="font-semibold text-slate-100 group-hover:text-amber-300">3. Głód i Selekcja Oszczędnych</span>
+              <span class="font-semibold text-slate-100 group-hover:text-amber-300">4. Głód i Selekcja Oszczędnych</span>
               <span class="text-[10px] font-mono text-amber-300">Flora 6/s · Presja metaboliczna</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Rzadki pokarm silnie faworyzuje mniejsze ciała (niższy koszt rozmiar²) i celne żerowanie bez marnowania energii na sprint.</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Rzadki pokarm premiuje mniejsze ciała, zimne strefy oszczędzające energię i skupiska przy kryształach.</p>
           </button>
 
-          <button data-scenario="toxic" class="text-left p-3 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-fuchsia-500/50 transition group">
+          <button data-scenario="toxic" class="text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-fuchsia-500/50 transition group">
             <div class="flex items-center justify-between">
-              <span class="font-semibold text-slate-100 group-hover:text-fuchsia-300">4. Pole Toksyczne (Unikanie Zagrożeń)</span>
+              <span class="font-semibold text-slate-100 group-hover:text-fuchsia-300">5. Pole Toksyczne (Unikanie Zagrożeń)</span>
               <span class="text-[10px] font-mono text-fuchsia-300">135 toksyn na start</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Testuje naukę sygnałów ujemnych (-1.0 na wejściach T1–T5). Przeżyją tylko sieci neuronowe, które wykształcą odruch omijania fioletowych sporów.</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Testuje naukę sygnałów ujemnych (-1.0) oraz ewolucyjną przewagę odpornych padlinożerców.</p>
           </button>
 
-          <button data-scenario="chaos" class="text-left p-3 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-purple-500/50 transition group">
+          <button data-scenario="chaos" class="text-left p-2.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-purple-500/50 transition group">
             <div class="flex items-center justify-between">
-              <span class="font-semibold text-slate-100 group-hover:text-purple-300">5. Hipermutacja (Katastrofa Błędów)</span>
+              <span class="font-semibold text-slate-100 group-hover:text-purple-300">6. Hipermutacja (Katastrofa Błędów)</span>
               <span class="text-[10px] font-mono text-purple-300">Mutacja 32%</span>
             </div>
-            <p class="text-[11px] text-slate-400 mt-1">Zbyt wysoka mutacja niszczy wyuczone wagi szybciej, niż selekcja je utrwala. Idealny pokaz, dlaczego hiperparametry w AI mają kluczowe znaczenie!</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Zbyt wysoka mutacja niszczy wyuczone wagi szybciej, niż selekcja je utrwala.</p>
           </button>
         </div>
       </div>
@@ -212,7 +204,7 @@ const LESSONS = [
 export class Academy {
   constructor(callbacks) {
     this.callbacks = callbacks;
-    this.activeTab = 'mlp';
+    this.activeTab = 'course1';
     this.modal = document.getElementById('academy-modal');
     this.tabsContainer = document.getElementById('academy-tabs');
     this.bodyContainer = document.getElementById('academy-body');
@@ -257,7 +249,7 @@ export class Academy {
       const cls = isActive
         ? 'bg-cyan-500/20 text-cyan-200 border-cyan-400/60'
         : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-slate-200 hover:bg-slate-800/70';
-      return `<button data-lesson="${lesson.id}" class="px-3 py-1.5 rounded-lg border text-[11px] font-medium transition flex items-center gap-1.5 ${cls}">
+      return `<button data-lesson="${lesson.id}" class="px-2.5 py-1.5 rounded-lg border text-[11px] font-medium transition flex items-center gap-1.5 ${cls}">
         <span>${lesson.title}</span>
         <span class="text-[9px] font-mono opacity-70">${lesson.badge}</span>
       </button>`;

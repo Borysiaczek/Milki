@@ -60,27 +60,35 @@
 <body>
   <canvas id="sim-canvas" class="fixed inset-0 w-full h-full block"></canvas>
 
-  <header class="fixed top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-auto flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#0b101b]/90 backdrop-blur-md border border-slate-800/80 shadow-[0_8px_32px_rgba(0,0,0,0.65)] whitespace-nowrap">
-    <div class="hidden xl:flex items-center gap-2 pr-2.5 border-r border-slate-800">
+  <header class="fixed top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#0b101b]/90 backdrop-blur-md border border-slate-800/80 shadow-[0_8px_32px_rgba(0,0,0,0.65)] whitespace-nowrap">
+    <div class="hidden 2xl:flex items-center gap-2 pr-2 border-r border-slate-800">
       <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></span>
       <span class="text-[11px] font-bold tracking-[0.14em] text-slate-100 uppercase">Abyssal Neuro</span>
     </div>
-    <div class="flex items-center gap-2.5 text-[11px] font-mono">
-      <div class="flex flex-col leading-tight" title="Łączna liczba żywych organizmów">
+    <div class="flex items-center gap-2 text-[11px] font-mono">
+      <div class="flex flex-col leading-tight" title="Łączna liczba żywych miłków">
         <span class="text-[8px] uppercase tracking-wider text-slate-500">Pop</span>
         <span id="stat-pop" class="text-slate-100 font-semibold">0</span>
       </div>
-      <div class="flex flex-col leading-tight" title="Roślinożercy (dieta < 0.4)">
+      <div class="flex flex-col leading-tight" title="Roślinożercy (szmaragdowi)">
         <span class="text-[8px] uppercase tracking-wider text-emerald-500/80">Rośl</span>
         <span id="stat-herb" class="text-emerald-300 font-semibold">0</span>
       </div>
-      <div class="flex flex-col leading-tight" title="Wszystkożercy (dieta 0.4–0.7)">
+      <div class="flex flex-col leading-tight" title="Padlinożercy (fioletowi) — żywią się padliną">
+        <span class="text-[8px] uppercase tracking-wider text-violet-400/80">Padl</span>
+        <span id="stat-scav" class="text-violet-300 font-semibold">0</span>
+      </div>
+      <div class="flex flex-col leading-tight" title="Wszystkożercy (złoci)">
         <span class="text-[8px] uppercase tracking-wider text-amber-500/80">Wsz</span>
         <span id="stat-omni" class="text-amber-300 font-semibold">0</span>
       </div>
-      <div class="flex flex-col leading-tight" title="Mięsożercy (dieta > 0.7)">
-        <span class="text-[8px] uppercase tracking-wider text-rose-500/80">Mięs</span>
+      <div class="flex flex-col leading-tight" title="Łowcy Szkarłatni (czerwoni drapieżnicy)">
+        <span class="text-[8px] uppercase tracking-wider text-rose-500/80">Łowca</span>
         <span id="stat-carn" class="text-rose-300 font-semibold">0</span>
+      </div>
+      <div class="flex flex-col leading-tight" title="Drapieżniki Alfa (błękitni superdrapieżnicy)">
+        <span class="text-[8px] uppercase tracking-wider text-sky-400/80">Alfa</span>
+        <span id="stat-apex" class="text-sky-300 font-semibold">0</span>
       </div>
       <div class="w-px h-5 bg-slate-800"></div>
       <div class="flex flex-col leading-tight" title="Średnie pokolenie ewolucyjne populacji">
@@ -95,6 +103,10 @@
         <span class="text-[8px] uppercase tracking-wider text-slate-500">Flora</span>
         <span id="stat-food" class="text-emerald-400 font-semibold">0</span>
       </div>
+      <div class="hidden xl:flex flex-col leading-tight" title="Cykl środowiskowy: Rozkwit → Przypływ → Mrok">
+        <span class="text-[8px] uppercase tracking-wider text-slate-500">Cykl</span>
+        <span id="stat-phase" class="text-emerald-300 font-semibold">Rozkwit</span>
+      </div>
       <div class="w-px h-5 bg-slate-800"></div>
       <div class="flex flex-col leading-tight" title="Klatki na sekundę">
         <span class="text-[8px] uppercase tracking-wider text-slate-500">FPS</span>
@@ -102,27 +114,34 @@
       </div>
     </div>
     <div class="w-px h-5 bg-slate-800"></div>
-    <button id="btn-open-academy" class="px-2.5 py-1 rounded-lg text-[10px] font-semibold tracking-wide bg-cyan-500/20 hover:bg-cyan-500/35 text-cyan-200 border border-cyan-400/50 shadow-[0_0_12px_rgba(34,211,238,0.2)] transition flex items-center gap-1.5" title="Otwórz interaktywny przewodnik po AI i eksperymenty (klawisz H)">
-      <span>Akademia AI</span>
+    <button id="btn-open-chain" class="px-2 py-1 rounded-lg text-[10px] font-semibold tracking-wide bg-purple-500/20 hover:bg-purple-500/35 text-purple-200 border border-purple-400/50 transition" title="Edytor drzewa i łańcucha pokarmowego (klawisz L)">
+      Łańcuch
+    </button>
+    <button id="btn-open-academy" class="px-2 py-1 rounded-lg text-[10px] font-semibold tracking-wide bg-cyan-500/20 hover:bg-cyan-500/35 text-cyan-200 border border-cyan-400/50 shadow-[0_0_12px_rgba(34,211,238,0.2)] transition" title="Kursy o sieciach neuronowych i eksperymenty (klawisz H)">
+      Akademia AI
     </button>
   </header>
 
   <aside class="fixed top-3 left-3 z-20 w-60 max-h-[calc(100vh-24px)] overflow-y-auto slim-scroll flex flex-col gap-2.5 pointer-events-auto pr-0.5">
     <div class="p-3 rounded-xl bg-[#0b101b]/88 backdrop-blur-md border border-slate-800/80 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
       <div class="flex items-center justify-between mb-2">
-        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">Skala Czasu</span>
+        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400" title="Użyj strzałek ← / → aby zmieniać prędkość czasu">Skala Czasu <span class="text-slate-600 font-mono">←/→</span></span>
         <button id="btn-reset-world" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-700/70 transition" title="Wygeneruj ekosystem od nowa">Resetuj</button>
       </div>
-      <div class="grid grid-cols-5 gap-1">
+      <div class="grid grid-cols-4 gap-1 mb-1">
         <button data-speed="0" class="py-1 text-[10px] font-mono rounded border transition" title="Zatrzymaj symulację (Spacja)">Pauza</button>
         <button data-speed="1" class="py-1 text-[10px] font-mono rounded border transition">1x</button>
         <button data-speed="2" class="py-1 text-[10px] font-mono rounded border transition">2x</button>
         <button data-speed="5" class="py-1 text-[10px] font-mono rounded border transition">5x</button>
-        <button data-speed="warp" class="py-1 text-[10px] font-mono rounded border transition" title="16 kroków fizyki na klatkę — szybka ewolucja">Skok</button>
+      </div>
+      <div class="grid grid-cols-3 gap-1">
+        <button data-speed="10" class="py-1 text-[10px] font-mono rounded border transition">10x</button>
+        <button data-speed="20" class="py-1 text-[10px] font-mono rounded border transition">20x</button>
+        <button data-speed="warp" class="py-1 text-[10px] font-mono rounded border transition" title="30 kroków fizyki na klatkę — turbo ewolucja">Skok</button>
       </div>
 
-      <div class="mt-3.5 space-y-2.5">
-        <div title="Prawdopodobieństwo zmiany wagi synaptycznej szumem Gaussa (Box-Muller) przy rozmnażaniu">
+      <div class="mt-3 space-y-2">
+        <div title="Prawdopodobieństwo zmiany wagi synaptycznej szumem Gaussa przy rozmnażaniu">
           <div class="flex justify-between text-[11px] mb-1">
             <span class="text-slate-400">Współczynnik mutacji</span>
             <span id="val-mutation" class="font-mono text-cyan-300">8%</span>
@@ -130,7 +149,7 @@
           <input id="slider-mutation" type="range" min="0.01" max="0.35" step="0.01" value="0.08" class="w-full" />
         </div>
 
-        <div title="Liczba nowych punktów pokarmu pojawiających się na sekundę w dryfujących biomach">
+        <div title="Liczba nowych punktów pokarmu pojawiających się na sekundę">
           <div class="flex justify-between text-[11px] mb-1">
             <span class="text-slate-400">Wzrost flory</span>
             <span id="val-food" class="font-mono text-emerald-300">16/s</span>
@@ -147,20 +166,52 @@
         </div>
       </div>
 
-      <div class="mt-3.5 pt-2.5 border-t border-slate-800/80 space-y-1.5 text-[11px]">
-        <label class="flex items-center justify-between cursor-pointer" title="Rysuje 5 promieni raycastingu (wejścia sieci) dla każdego widocznego organizmu">
+      <div class="mt-3 pt-2.5 border-t border-slate-800/80 space-y-1.5 text-[11px]">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-[9.5px] font-semibold uppercase tracking-[0.14em] text-slate-400">Manipulacja Terenem</span>
+          <button id="btn-regen-terrain" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-700/70 transition" title="Wylosuj nowy układ mapy bez resetowania miłków">Losuj mapę</button>
+        </div>
+        <label class="flex items-center justify-between cursor-pointer" title="Włącza/wyłącza strefy ciepłe (+25% ruchu) i zimne (-32% kosztu)">
+          <span class="text-orange-200">Strefy ciepłe i zimne</span>
+          <input id="toggle-terrain-thermal" type="checkbox" checked class="accent-orange-400 w-3.5 h-3.5 rounded cursor-pointer" />
+        </label>
+        <label class="flex items-center justify-between cursor-pointer" title="Włącza/wyłącza skały i rafy głębinowe">
+          <span class="text-slate-300">Skały i rafy</span>
+          <input id="toggle-terrain-obstacles" type="checkbox" checked class="accent-cyan-400 w-3.5 h-3.5 rounded cursor-pointer" />
+        </label>
+        <label class="flex items-center justify-between cursor-pointer" title="Włącza/wyłącza prądy morskie oraz wiry głębinowe">
+          <span class="text-sky-300">Prądy i wiry</span>
+          <input id="toggle-terrain-currents" type="checkbox" checked class="accent-sky-400 w-3.5 h-3.5 rounded cursor-pointer" />
+        </label>
+        <label class="flex items-center justify-between cursor-pointer" title="Włącza/wyłącza kryształy energetyczne i kominy hydrotermalne">
+          <span class="text-purple-300">Kryształy i kominy</span>
+          <input id="toggle-terrain-crystals" type="checkbox" checked class="accent-purple-400 w-3.5 h-3.5 rounded cursor-pointer" />
+        </label>
+        <label class="flex items-center justify-between cursor-pointer" title="Włącza/wyłącza kołyszące się lasy wodorostów">
+          <span class="text-emerald-300">Lasy wodorostów</span>
+          <input id="toggle-terrain-kelp" type="checkbox" checked class="accent-emerald-400 w-3.5 h-3.5 rounded cursor-pointer" />
+        </label>
+      </div>
+
+      <div class="mt-3 pt-2.5 border-t border-slate-800/80 space-y-1.5 text-[11px]">
+        <div class="text-[9.5px] font-semibold uppercase tracking-[0.14em] text-slate-400 mb-1">Narzędzia i Widok</div>
+        <label class="flex items-center justify-between cursor-pointer">
           <span class="text-slate-300">Pokaż wszystkie sensory</span>
           <input id="toggle-sensors" type="checkbox" class="accent-cyan-400 w-3.5 h-3.5 rounded cursor-pointer" />
         </label>
-        <label class="flex items-center justify-between cursor-pointer" title="Wizualizuje aktywne komórki 80×80px struktury Spatial Hash Grid (O(1))">
+        <label class="flex items-center justify-between cursor-pointer">
           <span class="text-slate-300">Pokaż siatkę przestrzenną</span>
           <input id="toggle-grid" type="checkbox" class="accent-cyan-400 w-3.5 h-3.5 rounded cursor-pointer" />
         </label>
-        <label class="flex items-center justify-between cursor-pointer" title="Przytrzymaj LPM na planszy, aby malować skupiska roślinności (+1)">
+        <label class="flex items-center justify-between cursor-pointer">
           <span class="text-emerald-300">Pędzel: Pokarm</span>
           <input id="toggle-food-brush" type="checkbox" class="accent-emerald-400 w-3.5 h-3.5 rounded cursor-pointer" />
         </label>
-        <label class="flex items-center justify-between cursor-pointer" title="Przytrzymaj LPM na planszy, aby rozsypywać fioletowe toksyny (-1)">
+        <label class="flex items-center justify-between cursor-pointer">
+          <span class="text-violet-300">Pędzel: Padlina</span>
+          <input id="toggle-carrion-brush" type="checkbox" class="accent-violet-400 w-3.5 h-3.5 rounded cursor-pointer" />
+        </label>
+        <label class="flex items-center justify-between cursor-pointer">
           <span class="text-fuchsia-300">Pędzel: Toksyny</span>
           <input id="toggle-poison-brush" type="checkbox" class="accent-fuchsia-400 w-3.5 h-3.5 rounded cursor-pointer" />
         </label>
@@ -169,21 +220,25 @@
 
     <div class="p-3 rounded-xl bg-[#0b101b]/88 backdrop-blur-md border border-slate-800/80 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
       <div class="flex items-center justify-between mb-1.5">
-        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">Telemetria Ewolucji</span>
-        <div class="flex items-center gap-1.5 text-[9px] font-mono">
+        <div class="flex items-center gap-1">
+          <button id="btn-chart-pop" class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-cyan-500/20 text-cyan-200 border border-cyan-400/50 transition">Populacja</button>
+          <button id="btn-chart-traits" class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-slate-900/70 text-slate-400 border border-slate-800 hover:text-slate-200 transition">Cechy</button>
+        </div>
+        <div id="chart-legend" class="flex items-center gap-1 text-[8.5px] font-mono">
           <span class="text-teal-300">Rośl</span>
-          <span class="text-rose-300">Mięs</span>
-          <span class="text-purple-300">Pok</span>
+          <span class="text-violet-300">Padl</span>
+          <span class="text-rose-300">Łow</span>
+          <span class="text-sky-300">Alfa</span>
         </div>
       </div>
-      <canvas id="sparkline-canvas" width="216" height="66" class="w-full h-[66px] rounded bg-slate-950/60 border border-slate-800/70"></canvas>
-      <div id="stat-evo-morph" class="mt-2 text-[9px] font-mono text-slate-400 text-center">Śr. rozm. 10.0px · Zasięg 120px · FOV 90°</div>
+      <canvas id="sparkline-canvas" width="216" height="62" class="w-full h-[62px] rounded bg-slate-950/60 border border-slate-800/70"></canvas>
+      <div id="stat-evo-morph" class="mt-1.5 text-[9px] font-mono text-slate-400 text-center">Śr. rozm. 10.0px · Zasięg 120px · FOV 90°</div>
       <div id="stat-evo-repro" class="mt-0.5 text-[9px] font-mono text-cyan-300/80 text-center">Narodziny: 0 (Krzyżowanie 0%)</div>
     </div>
 
     <div class="p-3 rounded-xl bg-[#0b101b]/88 backdrop-blur-md border border-slate-800/80 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
       <div class="flex items-center justify-between mb-1.5">
-        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400" title="3 najdłużej żyjące genomy — zabezpieczenie przed wymarciem (elitaryzm)">Galeria Sław (Top 3)</span>
+        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">Galeria Sław (Top 3)</span>
         <span class="text-[9px] font-mono text-slate-500">Elitaryzm</span>
       </div>
       <div id="hof-list" class="space-y-1"></div>
@@ -197,24 +252,29 @@
       </div>
       <div class="text-xs font-semibold text-slate-200">Inspektor Mózgu Neuronowego</div>
       <p class="mt-1.5 text-[11px] text-slate-400 leading-relaxed px-2">
-        Kliknij dowolny organizm, aby na żywo podejrzeć aktywacje jego sieci <strong class="text-cyan-300">MLP 14→10→3</strong>, promienie wzroku i decyzje AI.
+        Kliknij dowolnego miłka, aby na żywo obejrzeć jego sieć <strong class="text-cyan-300">MLP 14→10→3</strong>, <strong class="text-purple-300">Kod DNA wag</strong> oraz decyzje AI.
       </p>
       <div class="mt-3 pt-2.5 border-t border-slate-800/70 text-[10px] text-slate-500 font-mono space-y-1">
         <div>Przeciągnij: Przesuń &middot; Kółko: Przybliż</div>
-        <div>Spacja: Pauza &middot; Klawisz H: Akademia AI</div>
+        <div>← / →: Tempo &middot; L: Łańcuch &middot; H: Akademia</div>
       </div>
     </div>
 
     <div id="inspector-content" class="hidden">
-      <div class="flex items-center justify-between pb-2 border-b border-slate-800/80">
-        <div class="flex items-center gap-1.5">
-          <span id="insp-id" class="text-xs font-mono font-bold text-slate-100">#1</span>
-          <span id="insp-diet" class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase">Roślinożerca</span>
+      <div class="pb-2 border-b border-slate-800/80 space-y-1.5">
+        <div class="flex items-center justify-between gap-2">
+          <span id="insp-id" class="text-xs font-mono font-bold text-slate-100 truncate">Bąbel #1</span>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <span id="insp-status" class="text-[10px] font-mono text-emerald-400">ŻYJE</span>
+            <button id="btn-close-inspector" class="text-slate-400 hover:text-slate-100 text-xs px-1.5 py-0.5 rounded hover:bg-slate-800 transition" title="Zamknij inspektora">&times;</button>
+          </div>
         </div>
-        <div class="flex items-center gap-1.5">
-          <span id="insp-status" class="text-[10px] font-mono text-emerald-400">ŻYJE</span>
-          <button id="btn-close-inspector" class="text-slate-400 hover:text-slate-100 text-xs px-1.5 py-0.5 rounded hover:bg-slate-800 transition" title="Zamknij inspektora">&times;</button>
+        <div class="flex items-center justify-between gap-1.5">
+          <span id="insp-diet" class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold uppercase">Roślinożerca</span>
+          <span id="insp-archetype" class="text-[9.5px] font-medium text-cyan-200/90 truncate">Głębinowy Wędrowiec</span>
         </div>
+        <div id="insp-parent" class="text-[9px] font-mono text-slate-400 truncate">Rodzic: Pierwsze pokolenie</div>
+        <div id="insp-founder" class="text-[8.5px] font-mono text-purple-300/80 truncate">Pra-przodek (P1): —</div>
       </div>
 
       <div class="grid grid-cols-3 gap-1.5 my-2 text-center">
@@ -232,6 +292,36 @@
         </div>
       </div>
 
+      <div class="grid grid-cols-3 gap-1.5 mb-2 text-center">
+        <div class="py-1 px-1 rounded bg-slate-950/60 border border-slate-800/60">
+          <div class="text-[7.5px] uppercase text-slate-500">Posiłki</div>
+          <div id="insp-food-eaten" class="text-[11px] font-mono text-emerald-300 font-semibold">0</div>
+        </div>
+        <div class="py-1 px-1 rounded bg-slate-950/60 border border-slate-800/60">
+          <div class="text-[7.5px] uppercase text-slate-500">Ofiary</div>
+          <div id="insp-kills" class="text-[11px] font-mono text-rose-300 font-semibold">0</div>
+        </div>
+        <div class="py-1 px-1 rounded bg-slate-950/60 border border-slate-800/60">
+          <div class="text-[7.5px] uppercase text-slate-500">Dystans</div>
+          <div id="insp-dist" class="text-[11px] font-mono text-sky-300 font-semibold">0m</div>
+        </div>
+      </div>
+
+      <div class="mb-2 p-2 rounded-lg bg-slate-900/65 border border-slate-800/75 space-y-1 text-[9.5px] font-mono">
+        <div class="flex items-center justify-between border-b border-slate-800/70 pb-1">
+          <span class="text-slate-400">Przystosowanie (Fitness)</span>
+          <span id="insp-fitness" class="text-amber-300 font-bold">0</span>
+        </div>
+        <div class="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[9px]">
+          <div class="flex justify-between"><span class="text-slate-500">Mutacje:</span><span id="insp-mutations" class="text-purple-300">0 (+0)</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Spalanie:</span><span id="insp-burn" class="text-rose-300">-0.0 E/s</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Zebrane:</span><span id="insp-gained" class="text-emerald-300">+0 E</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Sprint:</span><span id="insp-sprint-pct" class="text-cyan-300">0%</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Maks. V:</span><span id="insp-max-speed" class="text-sky-300">0 px/s</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Toksyny:</span><span id="insp-toxins" class="text-fuchsia-300">0</span></div>
+        </div>
+      </div>
+
       <div class="mb-2">
         <div class="flex justify-between text-[10px] font-mono mb-1">
           <span class="text-slate-400 uppercase tracking-wider">Energia</span>
@@ -242,8 +332,39 @@
         </div>
       </div>
 
+      <div class="grid grid-cols-2 gap-x-2.5 gap-y-1.5 mb-2 px-0.5 text-[8.5px] font-mono text-slate-400" title="Biała kreska oznacza średnią całej populacji">
+        <div>
+          <div class="flex justify-between"><span>Rozm.</span><span id="val-size" class="text-slate-200">10.0</span></div>
+          <div class="relative w-full h-1.5 rounded-full bg-slate-800 mt-0.5">
+            <div id="bar-size" class="h-full rounded-full bg-cyan-400" style="width:50%"></div>
+            <div id="avg-size" class="absolute top-[-1px] w-[2px] h-[8px] bg-white/90 rounded-full" style="left:50%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between"><span>Zasięg</span><span id="val-range" class="text-slate-200">120</span></div>
+          <div class="relative w-full h-1.5 rounded-full bg-slate-800 mt-0.5">
+            <div id="bar-range" class="h-full rounded-full bg-emerald-400" style="width:50%"></div>
+            <div id="avg-range" class="absolute top-[-1px] w-[2px] h-[8px] bg-white/90 rounded-full" style="left:50%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between"><span>FOV</span><span id="val-fov" class="text-slate-200">90°</span></div>
+          <div class="relative w-full h-1.5 rounded-full bg-slate-800 mt-0.5">
+            <div id="bar-fov" class="h-full rounded-full bg-purple-400" style="width:50%"></div>
+            <div id="avg-fov" class="absolute top-[-1px] w-[2px] h-[8px] bg-white/90 rounded-full" style="left:50%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between"><span>Zegar</span><span id="val-clock" class="text-slate-200">3.5</span></div>
+          <div class="relative w-full h-1.5 rounded-full bg-slate-800 mt-0.5">
+            <div id="bar-clock" class="h-full rounded-full bg-amber-400" style="width:50%"></div>
+            <div id="avg-clock" class="absolute top-[-1px] w-[2px] h-[8px] bg-white/90 rounded-full" style="left:50%"></div>
+          </div>
+        </div>
+      </div>
+
       <div id="insp-morph" class="text-[9px] font-mono text-slate-400 text-center mb-2">
-        Rozmiar 10px · Zasięg 120px · FOV 90&deg;
+        Strefa: Umiarkowana
       </div>
 
       <div class="mb-2 p-2 rounded-lg bg-cyan-950/30 border border-cyan-500/25">
@@ -257,9 +378,21 @@
           <span>UKRYTE (10)</span>
           <span>WYJŚCIA (3)</span>
         </div>
-        <canvas id="nn-canvas" width="248" height="214" class="w-full h-[214px] block cursor-crosshair"></canvas>
-        <div id="nn-tooltip" class="mt-1.5 pt-1.5 border-t border-slate-800/70 text-[9.5px] leading-snug text-slate-400 min-h-[28px] px-1">
+        <canvas id="nn-canvas" width="248" height="192" class="w-full h-[192px] block cursor-crosshair"></canvas>
+        <div id="nn-tooltip" class="mt-1 pt-1 border-t border-slate-800/70 text-[9.5px] leading-snug text-slate-400 min-h-[26px] px-1">
           Najedź na dowolny neuron, aby sprawdzić jego rolę i wartość aktywacji.
+        </div>
+      </div>
+
+      <div class="rounded-lg bg-slate-950/75 border border-slate-800/80 p-1.5 mb-2">
+        <div class="flex items-center justify-between text-[8px] font-mono text-slate-400 px-1 mb-0.5">
+          <span class="uppercase tracking-wider text-purple-300 font-semibold">Helisa DNA Wag (183)</span>
+          <span class="text-[7.5px]"><span class="text-cyan-300">Zmysły</span>·<span class="text-purple-300">Progi</span>·<span class="text-emerald-300">Ruch</span>·<span class="text-amber-300">Inst</span></span>
+        </div>
+        <canvas id="dna-canvas" width="248" height="56" class="w-full h-[56px] block cursor-crosshair"></canvas>
+        <div id="dna-summary" class="mt-1 text-[8.5px] font-mono text-slate-400 text-center">DNA-000000</div>
+        <div id="dna-tooltip" class="mt-1 pt-1 border-t border-slate-800/70 text-[9px] leading-snug text-slate-300 min-h-[28px] px-1">
+          Najedź na kręcącą się helisę DNA, aby zobaczyć rolę konkretnego genu!
         </div>
       </div>
 
@@ -282,13 +415,57 @@
           <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></span>
           <div>
             <h2 class="text-sm font-bold tracking-wide text-slate-100">Akademia AI i Laboratorium Neuroewolucji</h2>
-            <p class="text-[10px] text-slate-400">Interaktywny przewodnik po sieciach neuronowych, algorytmach genetycznych i eksperymentach</p>
+            <p class="text-[10px] text-slate-400">Przystępne kursy o sieciach neuronowych, algorytmach genetycznych i eksperymentach</p>
           </div>
         </div>
         <button id="btn-close-academy" class="text-slate-400 hover:text-slate-100 text-lg px-2 py-0.5 rounded-lg hover:bg-slate-800 transition">&times;</button>
       </div>
       <div id="academy-tabs" class="flex flex-wrap gap-1.5 px-5 py-2.5 border-b border-slate-800/80 bg-slate-950/40"></div>
       <div id="academy-body" class="p-5 overflow-y-auto slim-scroll"></div>
+    </div>
+  </div>
+
+  <div id="foodchain-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div id="foodchain-backdrop" class="absolute inset-0 bg-black/75 backdrop-blur-sm"></div>
+    <div class="relative z-10 w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl bg-[#0b101b]/95 border border-slate-700/80 shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-purple-400 shadow-[0_0_10px_#c084fc]"></span>
+          <div>
+            <h2 class="text-sm font-bold tracking-wide text-slate-100">Edytor Łańcucha Pokarmowego</h2>
+            <p class="text-[10px] text-slate-400">Ułóż własne drzewo pokarmowe albo pozwól ewolucji samej ukształtować relacje!</p>
+          </div>
+        </div>
+        <button id="btn-close-chain" class="text-slate-400 hover:text-slate-100 text-lg px-2 py-0.5 rounded-lg hover:bg-slate-800 transition">&times;</button>
+      </div>
+
+      <div class="p-4 overflow-y-auto slim-scroll space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <button id="btn-chain-manual" class="px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition">Tryb Ręczny (Własne Drzewo)</button>
+            <button id="btn-chain-evo" class="px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition">Tryb Ewolucyjny (Auto-ewolucja)</button>
+          </div>
+          <div id="chain-presets" class="flex items-center gap-1.5 text-[10px] font-mono">
+            <button data-chain-preset="pyramid" class="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 transition">Piramida</button>
+            <button data-chain-preset="arena" class="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-rose-300 border border-slate-700 transition">Arena</button>
+            <button data-chain-preset="peaceful" class="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-slate-700 transition">Pokojowy</button>
+            <button data-chain-preset="inverted" class="px-2 py-1 rounded bg-slate-900 hover:bg-slate-800 text-amber-300 border border-slate-700 transition">Odwrócony</button>
+          </div>
+        </div>
+
+        <p id="chain-mode-desc" class="text-[11px] text-slate-400 leading-relaxed"></p>
+
+        <div class="rounded-xl bg-slate-950/75 border border-slate-800 p-2">
+          <div class="text-[9px] font-mono uppercase tracking-wider text-slate-500 px-1 mb-1">Żywe Drzewo Pokarmowe (strzałki wskazują cel pokarmowy)</div>
+          <canvas id="chain-graph" width="600" height="190" class="w-full h-[190px] block"></canvas>
+        </div>
+
+        <div class="rounded-xl bg-slate-950/75 border border-slate-800 p-2 overflow-x-auto">
+          <table class="w-full border-collapse">
+            <tbody id="chain-matrix-body"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 
